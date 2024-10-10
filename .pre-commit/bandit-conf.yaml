@@ -1,0 +1,16 @@
+# bandit.yaml
+exclude_dirs:
+  - env
+  - build
+  - dist
+  - .github
+  - .pre-commit
+  - .pytest_cache
+  - resources
+  - tests
+
+# Output
+output_format: txt
+output_file: /output/bandit_output.txt
+severity: LOW
+confidence: HIGH

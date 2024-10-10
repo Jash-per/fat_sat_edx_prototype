@@ -1,0 +1,6 @@
+repos: 
+  - repo: https://github.com/PyCQA/bandit
+    rev: '1.7.10'  # Replace with the specific version you want to use
+    hooks:
+    - id: bandit
+      args: ['-c', '.pre-commit/bandit-conf.yaml']
