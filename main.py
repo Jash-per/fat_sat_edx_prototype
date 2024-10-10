@@ -14,4 +14,5 @@ if __name__ == "__main__":
     layout.addWidget(button)
     window.setCentralWidget(central_widget)
     window.show()
+    # Shows
     sys.exit(app.exec())
