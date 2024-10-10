@@ -22,15 +22,12 @@ jobs:
 
     - name: Run tests
       run: |
-        pip install pytest
         pytest
 
     - name: Run linter
       run: |
-        pip install flake8
         flake8 .
 
     - name: Run bandit
       run: /
-        pip install bandit
         bandit -r .
