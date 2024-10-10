@@ -29,5 +29,5 @@ jobs:
         flake8 .
 
     - name: Run bandit
-      run: /
+      run: |
         bandit -r .
