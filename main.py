@@ -1,18 +1,16 @@
 # main.py
-
 import sys
-# from PySide6 import QtCore as QtCore
-from PySide6 import QtWidgets as QtWidgets
+from PySide6.QtWidgets import QApplication
+from controllers.main import ControllerMain
+
+
+class StatefulApplication(QApplication):
+    def __init__(self):
+        super().__init__()
+        self.controller = ControllerMain()
+        self.controller.show()
+
 
 if __name__ == "__main__":
-    app = QtWidgets.QApplication()
-    window = QtWidgets.QMainWindow()
-    button = QtWidgets.QPushButton("close")
-    button.clicked.connect(app.exit)
-    central_widget = QtWidgets.QWidget()
-    layout = QtWidgets.QVBoxLayout(central_widget)
-    layout.addWidget(button)
-    window.setCentralWidget(central_widget)
-    window.show()
-    # Shows
+    app = StatefulApplication()
     sys.exit(app.exec())
