@@ -3,16 +3,20 @@ from PySide6.QtCore import Slot
 from PySide6.QtStateMachine import QState
 from controllers.help import ControllerHelp
 from models.state_machine import StateMachineModel, StandardStates, StateEventHandler
-from models.calibration import CalibrationStates, CalibrationModel
+from models.calibration import FATProdedureModel, FATProdecureSuperStates
 from views.main import MainWindow
 
 
 class ControllerMain(StateEventHandler):
     def __init__(self):
         super().__init__()
-        self.calibration_model = CalibrationModel()
-        self.statemachine = StateMachineModel(parents=[self.calibration_model, self], states_enum=CalibrationStates)
-        self.view_main = MainWindow(self, self.calibration_model, statemachine=self.statemachine)
+        self.calibration_model = FATProdedureModel()
+        self.view_main = MainWindow(self, self.calibration_model)
+        self.statemachine = StateMachineModel(parents=[
+            self.calibration_model,
+            self.view_main,
+            self
+        ], states_enum=FATProdecureSuperStates)
 
     @Slot()
     def trigger_prev_state(self):
@@ -35,8 +39,9 @@ class ControllerMain(StateEventHandler):
 
     @Slot()
     def state_entered(self, state: QState, state_enum: StandardStates):
-        print(f"[{__class__.__name__}] Entered new state: {state_enum.value.parent}.{state_enum}.")
-        self.view_main.update_state(state_enum)
+        ...
+        # print(f"[{__class__.__name__}] Entered new state: {state_enum.value.parent}.{state_enum}.")
+        # self.view_main.update_state(state_enum)
 
     @Slot()
     def machine_finished(self):

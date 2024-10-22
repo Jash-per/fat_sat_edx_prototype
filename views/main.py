@@ -1,4 +1,9 @@
 # view.py
+from enum import Enum
+from PySide6.QtStateMachine import QState
+from models.state_machine import StateMachineModel
+from PySide6.QtCore import QSize, Slot
+from PySide6.QtGui import QAction
 from PySide6.QtWidgets import (
     QMainWindow,
     QMenu,
@@ -12,20 +17,17 @@ from PySide6.QtWidgets import (
     QScrollArea
 )
 
-from models.state_machine import StateMachineModel
-from PySide6.QtCore import QSize
-from PySide6.QtGui import QAction
-from enum import Enum
-
 
 class MainWindow(QMainWindow):
     windowSize: QSize = QSize(800, 600)
+    statemachine: StateMachineModel = None
 
     def __init__(self, controller, model, statemachine=None, parent=None):
         super().__init__(parent)
         self.controller = controller
-        self.statemachine: StateMachineModel = statemachine
         self.model = model
+        if statemachine is not None:
+            self.statemachine = statemachine
         self.init_ui()
 
     def init_ui(self):
@@ -94,13 +96,19 @@ class MainWindow(QMainWindow):
         self.setStatusBar(self.status_bar)
         state_lbl = QLabel("State-Machine state:")
         state_lbl.setStyleSheet("font-weight: bold;")
-        self.label_state = QLabel("IDLE")
+        self.label_state = QLabel("")
         self.status_bar.addPermanentWidget(state_lbl)
         self.status_bar.addPermanentWidget(self.label_state)
 
+    @Slot()
+    def state_entered(self, state: QState, state_enum: Enum):
+        self.text_edit.setText(self.model.state_log)
+        self.label_state.setText(state_enum.name)
+
     def update_state(self, state: Enum) -> None:
-        self.text_edit.setPlainText(self.model.state_log)
-        if state.value.parent:
-            self.label_state.setText(f'{state.value.parent.name}.{state.name}')
-        else:
-            self.label_state.setText(f'{state.name}')
+        ...
+        # self.text_edit.setPlainText(self.model.state_log)
+        # if state.value.parent:
+        #     self.label_state.setText(f'{state.value.parent.name}.{state.name}')
+        # else:
+        #     self.label_state.setText(f'{state.name}')

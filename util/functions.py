@@ -3,7 +3,7 @@ from enum import Enum
 from copy import deepcopy
 
 
-class rdict(dict):
+class SearchDict(dict):
     def search(self, key):
         """
         Recursively search for a key in the dictionary and its nested dictionaries.
@@ -12,7 +12,7 @@ class rdict(dict):
             return self[key]
         for value in self.values():
             if isinstance(value, dict):
-                result = rdict(value).search(key)
+                result = SearchDict(value).search(key)
                 if result is not None:
                     return result
         return None
@@ -25,7 +25,7 @@ class rdict(dict):
             if v == value:
                 return k
             if isinstance(v, dict):
-                result = rdict(v).reverse_search(value)
+                result = SearchDict(v).reverse_search(value)
                 if result is not None:
                     return result
         return None
